@@ -2,6 +2,7 @@ package com.twofiftyfivebit.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,24 +15,32 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameScreen implements Screen
 {
-    private Camera camera;
+    private OrthographicCamera camera;
     private FillViewport viewport;
 
     private SpriteBatch batch;
 
+    AssetManager assetManager;
+
+    private  InputHandler inputHandler;
     private Texture background;
 
     final private float worldWidth = 32f;
     final private float worldHeight = 18f;
 
-    GameScreen()
+    GameScreen(AssetManager assetManager)
     {
+        this.assetManager = assetManager;
+
         camera = new OrthographicCamera();
-        viewport = new FillViewport(worldWidth,worldHeight,camera);
+        viewport = new FillViewport(worldWidth, worldHeight, camera);
 
         batch = new SpriteBatch();
 
-        background = new Texture("Square.png");
+        inputHandler = new InputHandler(camera);
+        Gdx.input.setInputProcessor(inputHandler);
+
+        background = assetManager.get("Square.png", Texture.class);
     }
 
     @Override
@@ -51,8 +60,8 @@ public class GameScreen implements Screen
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        batch.draw(background,-8f,0f,1f,1f);
-        batch.draw(background,1f,0f,1f,1f);
+        batch.draw(background, -8f, 0f, 1f, 1f);
+        batch.draw(background, 1f, 0f, 1f, 1f);
 
         batch.end();
     }
@@ -85,7 +94,5 @@ public class GameScreen implements Screen
     public void dispose()
     {
         batch.dispose();
-
-        background.dispose();
     }
 }
