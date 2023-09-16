@@ -1,17 +1,14 @@
-package com.twofiftyfivebit.game;
+package com.twofiftyfivebit.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.twofiftyfivebit.game.utilities.InputHandler;
 
 public class GameScreen implements Screen
 {
@@ -22,13 +19,13 @@ public class GameScreen implements Screen
 
     AssetManager assetManager;
 
-    private  InputHandler inputHandler;
+    private InputHandler inputHandler;
     private Texture background;
 
     final private float worldWidth = 32f;
     final private float worldHeight = 18f;
 
-    GameScreen(AssetManager assetManager)
+    public GameScreen(AssetManager assetManager)
     {
         this.assetManager = assetManager;
 

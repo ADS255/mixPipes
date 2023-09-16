@@ -1,4 +1,4 @@
-package com.twofiftyfivebit.game;
+package com.twofiftyfivebit.game.utilities;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -10,7 +10,7 @@ public class InputHandler extends InputAdapter
 {
     private  OrthographicCamera camera;
 
-    InputHandler (OrthographicCamera camera)
+    public InputHandler (OrthographicCamera camera)
     {
         this.camera = camera;
 
