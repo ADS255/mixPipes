@@ -31,6 +31,11 @@ public class GridRenderer
         Vector2 offsetVec = new Vector2(width/2,height/2);
         int index =0;
 
+        for (int i = 0; i < tileTextures.length; i++)
+        {
+            tileTextures[i].setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
