@@ -1,0 +1,96 @@
+{
+  "width": 3,
+  "height": 3,
+  "tiles": [
+    {
+      "type": "straight",
+      "orientation": 1,
+      "connections": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 0,
+      "connections": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 0,
+      "connections": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 0,
+      "connections": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 0,
+      "connections": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 0,
+      "connections": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 0,
+      "connections": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 0,
+      "connections": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 0,
+      "connections": [
+        true,
+        false,
+        true,
+        false
+      ]
+    }
+  ]
+}
