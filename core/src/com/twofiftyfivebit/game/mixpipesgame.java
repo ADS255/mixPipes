@@ -1,24 +1,37 @@
 package com.twofiftyfivebit.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Json;
+import com.twofiftyfivebit.game.data.LevelData;
+import com.twofiftyfivebit.game.data.Tile;
 import com.twofiftyfivebit.game.screens.GameScreen;
+import com.twofiftyfivebit.game.utilities.Serialiser;
+
+import java.io.FileWriter;
 
 public class mixpipesgame extends Game
 {
-	GameScreen gameScreen;
-
 	AssetManager assetManager;
+
+	GameScreen gameScreen;
 
 	@Override
 	public void create()
 	{
 		assetManager = new AssetManager();
-		assetManager.load("Square.png", Texture.class);
+		assetManager.load("0.png", Texture.class);
+		assetManager.load("1.png", Texture.class);
+		assetManager.load("2.png", Texture.class);
+		assetManager.load("3.png", Texture.class);
 		assetManager.finishLoading();
 
-		gameScreen = new GameScreen(assetManager);
+		LevelData levelData = Serialiser.loadLevelData(assetManager,0);
+
+		gameScreen = new GameScreen(assetManager,levelData);
 		setScreen(gameScreen);
 	}
 
