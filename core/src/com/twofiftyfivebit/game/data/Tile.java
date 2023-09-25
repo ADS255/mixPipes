@@ -28,9 +28,9 @@ public class Tile
 
     public Type type;
     public int orientation;
-    public boolean[] connections;
+    public int[] connections;
 
-    public static Tile straight = new Tile(Type.straight, 0, new boolean[]{true, false, true, false});
+    public static Tile straight = new Tile(Type.straight, 0, new int[]{1, 0, 1, 0});
 
     public Tile()
     {
@@ -43,7 +43,7 @@ public class Tile
         this.connections = tile.connections;
     }
 
-    public Tile(Type type, int orientation, boolean[] connections)
+    public Tile(Type type, int orientation, int[] connections)
     {
         this.type = type;
         this.orientation = orientation;
@@ -58,5 +58,21 @@ public class Tile
     public void rotate()
     {
         orientation = (orientation + 1) % 4;
+        shiftConnectionsRight();
+    }
+
+    private void shiftConnectionsRight()
+    {
+        int lastElement = connections[connections.length - 1];
+        int[] shiftedConnections = new int[connections.length];
+
+        for (int i = 0; i < connections.length - 1; i++)
+        {
+            shiftedConnections[i + 1] = connections[i];
+        }
+
+        shiftedConnections[0] = lastElement;
+
+        connections = shiftedConnections;
     }
 }
