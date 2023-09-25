@@ -6,15 +6,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.twofiftyfivebit.game.data.LevelData;
+import com.twofiftyfivebit.game.data.GameDataModel;
 import com.twofiftyfivebit.game.graphics.GridRenderer;
 import com.twofiftyfivebit.game.utilities.InputHandler;
-
-import java.util.ArrayList;
 
 public class GameScreen implements Screen
 {
@@ -28,10 +24,10 @@ public class GameScreen implements Screen
     private InputHandler inputHandler;
     private GridRenderer gridRenderer;
 
-    private LevelData levelData;
+    private GameDataModel gameDataModel;
     private Texture[] tileTextures;
 
-    public GameScreen(AssetManager assetManager, LevelData levelData)
+    public GameScreen(AssetManager assetManager, GameDataModel gameDataModel)
     {
         this.assetManager = assetManager;
 
@@ -40,10 +36,11 @@ public class GameScreen implements Screen
 
         batch = new SpriteBatch();
 
-        this.levelData = levelData;
+        this.gameDataModel = gameDataModel;
 
-        inputHandler = new InputHandler(camera,this.levelData);
+        inputHandler = new InputHandler(camera,this.gameDataModel);
         Gdx.input.setInputProcessor(inputHandler);
+        inputHandler.addListener(gameDataModel);
 
         tileTextures = new Texture[4];
         tileTextures[0] = assetManager.get("0.png", Texture.class);
@@ -51,7 +48,7 @@ public class GameScreen implements Screen
         tileTextures[2] = assetManager.get("2.png", Texture.class);
         tileTextures[3] = assetManager.get("3.png", Texture.class);
 
-        gridRenderer = new GridRenderer(this.levelData,tileTextures);
+        gridRenderer = new GridRenderer(this.gameDataModel,tileTextures);
     }
 
     @Override
