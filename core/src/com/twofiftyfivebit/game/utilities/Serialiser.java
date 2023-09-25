@@ -10,7 +10,7 @@ public class Serialiser
 {
     private static Json json = new Json();
 
-    public static LevelData loadLevelData(AssetManager assetManager, int levelIndex)
+    public static LevelData loadLevelData(int levelIndex)
     {
         String path = "levels/" + levelIndex + ".json";
         FileHandle fileHandle = Gdx.files.internal(path);

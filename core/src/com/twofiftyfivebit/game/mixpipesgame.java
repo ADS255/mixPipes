@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Json;
+import com.twofiftyfivebit.game.data.GameDataModel;
 import com.twofiftyfivebit.game.data.LevelData;
 import com.twofiftyfivebit.game.data.Tile;
 import com.twofiftyfivebit.game.screens.GameScreen;
@@ -29,9 +30,10 @@ public class mixpipesgame extends Game
 		assetManager.load("3.png", Texture.class);
 		assetManager.finishLoading();
 
-		LevelData levelData = Serialiser.loadLevelData(assetManager,0);
+		LevelData levelData = Serialiser.loadLevelData(0);
+		GameDataModel dataModel = new GameDataModel(levelData);
 
-		gameScreen = new GameScreen(assetManager,levelData);
+		gameScreen = new GameScreen(assetManager,dataModel);
 		setScreen(gameScreen);
 	}
 
