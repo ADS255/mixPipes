@@ -10,6 +10,13 @@ public class LevelData
     {
     }
 
+    public LevelData(LevelData levelData)
+    {
+        this.width = levelData.width;
+        this.height = levelData.height;
+        this.tiles = levelData.tiles;
+    }
+
     public LevelData(int width, int height, Tile[] tiles)
     {
         this.width = width;
@@ -20,6 +27,11 @@ public class LevelData
     public Tile[] getTiles()
     {
         return tiles;
+    }
+
+    public Tile getTile(int index)
+    {
+        return tiles[index];
     }
 
     public int getWidth()
@@ -37,15 +49,4 @@ public class LevelData
         return tiles.length;
     }
 
-    public int getOrientation(int index)
-    {
-        return tiles[index].orientation;
-    }
-
-    public void onInput(int x, int y)
-    {
-        int index = x + y;
-        System.out.println(index);
-        tiles[index].rotate();
-    }
 }
