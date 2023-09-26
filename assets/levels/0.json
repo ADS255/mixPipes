@@ -4,92 +4,92 @@
   "tiles": [
     {
       "type": "straight",
+      "orientation": 0,
+      "connections": [
+        1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "junction",
+      "orientation": 0,
+      "connections": [
+        0,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 0,
+      "connections": [
+        1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 0,
+      "connections": [
+        1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "straight",
       "orientation": 1,
       "connections": [
-        true,
-        false,
-        true,
-        false
+        0,
+        1,
+        0,
+        1
       ]
     },
     {
       "type": "straight",
       "orientation": 0,
       "connections": [
-        true,
-        false,
-        true,
-        false
+        1,
+        0,
+        1,
+        0
       ]
     },
     {
       "type": "straight",
       "orientation": 0,
       "connections": [
-        true,
-        false,
-        true,
-        false
+        1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "straight",
+      "orientation": 1,
+      "connections": [
+        0,
+        1,
+        0,
+        1
       ]
     },
     {
       "type": "straight",
       "orientation": 0,
       "connections": [
-        true,
-        false,
-        true,
-        false
-      ]
-    },
-    {
-      "type": "straight",
-      "orientation": 0,
-      "connections": [
-        true,
-        false,
-        true,
-        false
-      ]
-    },
-    {
-      "type": "straight",
-      "orientation": 0,
-      "connections": [
-        true,
-        false,
-        true,
-        false
-      ]
-    },
-    {
-      "type": "straight",
-      "orientation": 0,
-      "connections": [
-        true,
-        false,
-        true,
-        false
-      ]
-    },
-    {
-      "type": "straight",
-      "orientation": 0,
-      "connections": [
-        true,
-        false,
-        true,
-        false
-      ]
-    },
-    {
-      "type": "straight",
-      "orientation": 0,
-      "connections": [
-        true,
-        false,
-        true,
-        false
+        1,
+        0,
+        1,
+        0
       ]
     }
   ]
