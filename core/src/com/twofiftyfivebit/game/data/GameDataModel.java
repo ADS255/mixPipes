@@ -4,9 +4,11 @@ import com.twofiftyfivebit.game.utilities.IInputListener;
 
 public class GameDataModel extends LevelData implements IInputListener
 {
+    private GridTraverser traverser;
     public GameDataModel(LevelData levelData)
     {
         super(levelData);
+        traverser = new GridTraverser(levelData);
     }
 
     @Override
@@ -16,5 +18,7 @@ public class GameDataModel extends LevelData implements IInputListener
         {
             tiles[clickIndex].rotate();
         }
+
+        traverser.traverse(0);
     }
 }
