@@ -21,12 +21,6 @@ public class GridTraverser
     {
         visited.clear();
         traverseTile(startIndex);
-
-        for (int i = 0; i < visited.size(); i++)
-        {
-            System.out.println("Visited: "+ visited.get(i));
-        }
-        System.out.println("----------------------");
     }
 
     public ArrayList<Integer> getVisited()
@@ -51,10 +45,10 @@ public class GridTraverser
             {
                 int OppositeConnection = (i + 2) % 4;
 
-                int neighbourIndex = getNeighbourIndex(index,i);
+                int neighbourIndex = getNeighbourIndex(index, i);
                 Tile neighbour = levelData.getTile(neighbourIndex);
 
-                if (neighbour == null)
+                if (neighbourIndex == -1 || neighbour == null)
                 {
                     continue;
                 }
@@ -72,6 +66,7 @@ public class GridTraverser
         int neighbourIndex = currentIndex;
         int horizontalOffset = levelData.getHeight();
         int verticalOffset = 1;
+        int invalidIndex = -1;
 
         switch (direction)
         {
@@ -87,6 +82,11 @@ public class GridTraverser
             case 3:
                 neighbourIndex -= horizontalOffset;
                 break;
+        }
+
+        if ((currentIndex+1) % levelData.height == 0)
+        {
+            return invalidIndex;
         }
 
         return neighbourIndex;
