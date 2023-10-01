@@ -11,6 +11,9 @@ public class GameDataModel extends LevelData implements IInputListener
 {
     private GridTraverser[] traversers;
 
+    private boolean traversalDataChange;
+    private int[] traversalData;
+
     public GameDataModel()
     {
     }
@@ -27,6 +30,8 @@ public class GameDataModel extends LevelData implements IInputListener
             traversers[i] = traverser;
             traverser.traverse();
         }
+
+        traversalDataChange = true;
     }
 
     @Override
@@ -41,27 +46,34 @@ public class GameDataModel extends LevelData implements IInputListener
         {
             traversers[i].traverse();
         }
+
+        traversalDataChange = true;
     }
 
     public int[] getVisited()
     {
-        int[] traversalData = new int[width * height];
+        if (traversalDataChange){
 
-        for (int i = 0; i < traversers.length; i++)
-        {
-            HashSet<Integer> traverserVisited = traversers[i].getVisited();
+            traversalData = new int[width * height];
 
-            for (Integer tileIndex : traverserVisited)
+            for (int i = 0; i < traversers.length; i++)
             {
-                if (traversalData[tileIndex] == 0)
+                HashSet<Integer> traverserVisited = traversers[i].getVisited();
+
+                for (Integer tileIndex : traverserVisited)
                 {
-                    traversalData[tileIndex] = i + 1;
-                } else
-                {
-                    traversalData[tileIndex] = 3;
+                    if (traversalData[tileIndex] == 0)
+                    {
+                        traversalData[tileIndex] = i + 1;
+                    } else
+                    {
+                        traversalData[tileIndex] = 3;
+                    }
                 }
+
             }
 
+            traversalDataChange = false;
         }
 
         return traversalData;
