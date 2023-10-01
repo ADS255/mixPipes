@@ -2,9 +2,11 @@ package com.twofiftyfivebit.game.data;
 
 public class LevelData
 {
-    public int width;
-    public int height;
-    public Tile[] tiles;
+    protected int width;
+    protected int height;
+
+    protected int[] sourceIndexes;
+    protected Tile[] tiles;
 
     public LevelData()
     {
@@ -14,6 +16,7 @@ public class LevelData
     {
         this.width = levelData.width;
         this.height = levelData.height;
+        this.sourceIndexes = levelData.sourceIndexes;
         this.tiles = levelData.tiles;
     }
 
@@ -31,19 +34,23 @@ public class LevelData
 
     public Tile getTile(int index)
     {
-        return tiles[index];
+        if (0 <= index && index < tiles.length)
+        {
+            return tiles[index];
+        }
+        return null;
     }
 
     public int getWidth()
     {
         return width;
     }
-
     public int getHeight()
     {
         return height;
     }
 
+    public int[] getSourceIndexes(){return sourceIndexes;}
     public int getTileCount()
     {
         return tiles.length;

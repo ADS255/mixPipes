@@ -8,22 +8,23 @@ import java.util.HashSet;
 public class GridTraverser
 {
     private LevelData levelData;
+    private HashSet<Integer> visited;
+    private int sourceIndex;
 
-    private ArrayList<Integer> visited;
-
-    public GridTraverser(LevelData levelData)
+    public GridTraverser(LevelData levelData, int sourceIndex)
     {
         this.levelData = levelData;
-        this.visited = new ArrayList<>();
+        this.visited = new HashSet<>();
+        this.sourceIndex = sourceIndex;
     }
 
-    public void traverse(int startIndex)
+    public void traverse()
     {
         visited.clear();
-        traverseTile(startIndex);
+        traverseTile(sourceIndex);
     }
 
-    public ArrayList<Integer> getVisited()
+    public HashSet<Integer> getVisited()
     {
         return visited;
     }
@@ -72,21 +73,24 @@ public class GridTraverser
         {
             case 0:
                 neighbourIndex += verticalOffset;
+                if (Math.floor(neighbourIndex / horizontalOffset) != Math.floor(currentIndex / horizontalOffset))
+                {
+                    return invalidIndex;
+                }
                 break;
             case 1:
                 neighbourIndex += horizontalOffset;
                 break;
             case 2:
                 neighbourIndex -= verticalOffset;
+                if (Math.floor(neighbourIndex / horizontalOffset) != Math.floor(currentIndex / horizontalOffset))
+                {
+                    return invalidIndex;
+                }
                 break;
             case 3:
                 neighbourIndex -= horizontalOffset;
                 break;
-        }
-
-        if ((currentIndex+1) % levelData.height == 0)
-        {
-            return invalidIndex;
         }
 
         return neighbourIndex;
