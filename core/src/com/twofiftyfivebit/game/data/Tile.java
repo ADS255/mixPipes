@@ -12,7 +12,8 @@ public class Tile
         bend,
         junction,
         start,
-        end
+        end,
+        unidirectional
     }
 
     public static HashMap<Type, Integer> textureLookup = new HashMap<>();
@@ -24,6 +25,7 @@ public class Tile
         textureLookup.put(Type.junction, 2);
         textureLookup.put(Type.start, 3);
         textureLookup.put(Type.end, 3);
+        textureLookup.put(Type.unidirectional, 0);
     }
 
     public Type type;
@@ -59,6 +61,11 @@ public class Tile
     {
         orientation = (orientation + 1) % 4;
         shiftConnectionsRight();
+    }
+
+    public boolean hasConnection(int connectionIndex)
+    {
+        return connections[connectionIndex] == 1;
     }
 
     private void shiftConnectionsRight()

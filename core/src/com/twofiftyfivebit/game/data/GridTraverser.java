@@ -40,11 +40,12 @@ public class GridTraverser
         Tile tile = levelData.getTile(index);
         int[] connections = tile.connections;
 
+
         for (int i = 0; i < connections.length; i++)
         {
             if (connections[i] == 1)
             {
-                int OppositeConnection = (i + 2) % 4;
+                int oppositeConnection = (i + 2) % 4;
 
                 int neighbourIndex = getNeighbourIndex(index, i);
                 Tile neighbour = levelData.getTile(neighbourIndex);
@@ -54,8 +55,13 @@ public class GridTraverser
                     continue;
                 }
 
-                if (neighbour.hasConnection(OppositeConnection) && !visited.contains(neighbourIndex))
+                if (neighbour.hasConnection(oppositeConnection) && !visited.contains(neighbourIndex))
                 {
+                    if (neighbour.type == Tile.Type.unidirectional && neighbour.orientation == oppositeConnection)
+                    {
+                        visited.add(neighbourIndex);
+                        return;
+                    }
                     traverseTile(neighbourIndex);
                 }
             }
