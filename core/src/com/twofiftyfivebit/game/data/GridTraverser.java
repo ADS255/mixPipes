@@ -10,12 +10,14 @@ public class GridTraverser
     private LevelData levelData;
     private HashSet<Integer> visited;
     private int sourceIndex;
+    private int id;
 
-    public GridTraverser(LevelData levelData, int sourceIndex)
+    public GridTraverser(LevelData levelData, int sourceIndex, int id)
     {
         this.levelData = levelData;
         this.visited = new HashSet<>();
         this.sourceIndex = sourceIndex;
+        this.id = id;
     }
 
     public void traverse()
@@ -28,17 +30,22 @@ public class GridTraverser
     {
         return visited;
     }
+    public int getId() {return id;}
 
     private void traverseTile(int index)
     {
+        Tile tile = levelData.getTile(index);
+        int[] connections = tile.connections;
+
         if (visited.contains(index))
         {
             return;
         }
+        if (index != sourceIndex && tile.type == Tile.Type.start)
+        {
+            return;
+        }
         visited.add(index);
-
-        Tile tile = levelData.getTile(index);
-        int[] connections = tile.connections;
 
 
         for (int i = 0; i < connections.length; i++)
@@ -59,7 +66,7 @@ public class GridTraverser
                 {
                     if (neighbour.type == Tile.Type.unidirectional && neighbour.orientation == oppositeConnection)
                     {
-                        visited.add(neighbourIndex);
+                        //visited.add(neighbourIndex);
                         return;
                     }
                     traverseTile(neighbourIndex);

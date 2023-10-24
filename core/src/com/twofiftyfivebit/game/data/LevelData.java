@@ -1,11 +1,15 @@
 package com.twofiftyfivebit.game.data;
 
+import java.util.HashMap;
+
 public class LevelData
 {
     protected int width;
     protected int height;
 
-    protected int[] sourceIndexes;
+    protected TileInfo[] sourcesInfo;
+    protected TileInfo[] goalsInfo;
+
     protected Tile[] tiles;
 
     public LevelData()
@@ -16,7 +20,9 @@ public class LevelData
     {
         this.width = levelData.width;
         this.height = levelData.height;
-        this.sourceIndexes = levelData.sourceIndexes;
+
+        this.sourcesInfo = levelData.sourcesInfo;
+        this.goalsInfo = levelData.goalsInfo;
         this.tiles = levelData.tiles;
     }
 
@@ -45,12 +51,12 @@ public class LevelData
     {
         return width;
     }
+
     public int getHeight()
     {
         return height;
     }
 
-    public int[] getSourceIndexes(){return sourceIndexes;}
     public int getTileCount()
     {
         return tiles.length;

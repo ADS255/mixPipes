@@ -22,11 +22,13 @@ public class GameDataModel extends LevelData implements IInputListener
     {
         super(levelData);
 
-        traversers = new GridTraverser[sourceIndexes.length];
-        for (int i = 0; i < sourceIndexes.length; i++)
+        traversers = new GridTraverser[sourcesInfo.length];
+        for (int i = 0; i < traversers.length; i++)
         {
-            int sourceIndex = sourceIndexes[i];
-            GridTraverser traverser = new GridTraverser(levelData, sourceIndex);
+            int sourceIndex = sourcesInfo[i].index;
+            int id = sourcesInfo[i].id;
+
+            GridTraverser traverser = new GridTraverser(levelData, sourceIndex,id);
             traversers[i] = traverser;
             traverser.traverse();
         }
@@ -48,11 +50,22 @@ public class GameDataModel extends LevelData implements IInputListener
         }
 
         traversalDataChange = true;
+
+        int[] visited = getVisited();
+
+        for (int i =0; i < goalsInfo.length; i++){
+            TileInfo goalInfo = goalsInfo[i];
+
+            if(visited[goalInfo.index] == goalInfo.id){
+                System.out.println("Level complete !");
+            }
+        }
     }
 
     public int[] getVisited()
     {
-        if (traversalDataChange){
+        if (traversalDataChange)
+        {
 
             traversalData = new int[width * height];
 
@@ -64,7 +77,7 @@ public class GameDataModel extends LevelData implements IInputListener
                 {
                     if (traversalData[tileIndex] == 0)
                     {
-                        traversalData[tileIndex] = i + 1;
+                        traversalData[tileIndex] = traversers[i].getId();
                     } else
                     {
                         traversalData[tileIndex] = 3;
