@@ -1,12 +1,68 @@
 {
   "width": 3,
   "height": 3,
+  "sourcesInfo": [
+    {
+      "index": 0,
+      "id": 1
+    },
+    {
+      "index": 8,
+      "id": 2
+    }
+  ],
+  "goalsInfo": [
+    {
+      "index": 4,
+      "id": 3
+    }
+  ],
   "tiles": [
+    {
+      "type": "start",
+      "orientation": 0,
+      "connections": [
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "junction",
+      "orientation": 0,
+      "connections": [
+        0,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "type": "bend",
+      "orientation": 0,
+      "connections": [
+        0,
+        0,
+        1,
+        1
+      ]
+    },
     {
       "type": "straight",
       "orientation": 0,
       "connections": [
         1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "end",
+      "orientation": 0,
+      "connections": [
+        0,
         0,
         1,
         0
@@ -43,50 +99,10 @@
       ]
     },
     {
-      "type": "straight",
-      "orientation": 1,
-      "connections": [
-        0,
-        1,
-        0,
-        1
-      ]
-    },
-    {
-      "type": "straight",
+      "type": "start",
       "orientation": 0,
       "connections": [
-        1,
         0,
-        1,
-        0
-      ]
-    },
-    {
-      "type": "straight",
-      "orientation": 0,
-      "connections": [
-        1,
-        0,
-        1,
-        0
-      ]
-    },
-    {
-      "type": "straight",
-      "orientation": 1,
-      "connections": [
-        0,
-        1,
-        0,
-        1
-      ]
-    },
-    {
-      "type": "straight",
-      "orientation": 0,
-      "connections": [
-        1,
         0,
         1,
         0
