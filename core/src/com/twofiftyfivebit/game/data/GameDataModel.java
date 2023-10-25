@@ -86,6 +86,10 @@ public class GameDataModel extends LevelData implements IInputListener
 
             }
 
+            for(int i = 0; i < goalsInfo.length; i++){
+                traversalData[goalsInfo[i].index] = goalsInfo[i].id;
+            }
+
             traversalDataChange = false;
         }
 
