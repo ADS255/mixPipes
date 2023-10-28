@@ -19,8 +19,12 @@ public class GridRenderer
     Texture[] tileTextures;
     private Sprite[] sprites;
 
+    private Sprite[] background;
+
     private int width;
     private int height;
+
+    private Color[] colors;
 
     public GridRenderer(GameDataModel dataModel, Texture[] tileTextures)
     {
@@ -31,6 +35,13 @@ public class GridRenderer
         this.height = dataModel.getHeight();
 
         sprites = new Sprite[width * height];
+        background = new Sprite[width * height];
+
+        colors = new Color[]{
+                new Color(1.0f,1.0f,0.03f,1.0f),//yellow
+                new Color(0.0f, 0.6f, 0.9f, 1.0f),//blue
+                new Color(0.0f, 0.8f, 0.4f, 1.0f),//green
+        };
 
         Vector2 offsetVec = new Vector2(width / 2, height / 2);
         int index = 0;
@@ -52,56 +63,61 @@ public class GridRenderer
                 int textureIndex = Tile.getTextureIndex(currentTile.type);
                 Texture spriteTexture = tileTextures[textureIndex];
 
+                background[index] = new Sprite(tileTextures[6], 0, 0, tileTextures[0].getWidth(), tileTextures[0].getHeight());
+                background[index].setSize(0.95f, 0.95f);
+                background[index].setPosition(xPos,yPos);
+
                 sprites[index] = new Sprite(spriteTexture, 0, 0, tileTextures[0].getWidth(), tileTextures[0].getHeight());
                 Sprite sprite = sprites[index];
 
                 sprite.setPosition(xPos, yPos);
-                sprite.setSize(1f, 1f);
+                sprite.setSize(0.95f, 0.95f);
                 sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
                 sprite.rotate(rotation);
+
                 sprite.setColor(Color.WHITE);
 
                 index++;
             }
         }
+
+
     }
 
     public void render(SpriteBatch batch)
     {
-        for (int i = 0; i < dataModel.getTileCount(); i++)
-        {
-            Tile tile = dataModel.getTile(i);
-            sprites[i].setRotation(tile.orientation * (-90f));
-
-            sprites[i].draw(batch);
-        }
-
         int[] traversalData = dataModel.getVisited();
 
         for (int i = 0; i < traversalData.length; i++)
         {
-            int tileState = traversalData[i];
+            Tile tile = dataModel.getTile(i);
 
-            switch (tileState)
-            {
-                case 0:
-                    sprites[i].setColor(Color.WHITE);
-                    break;
+            Sprite sprite = sprites[i];
+            float tileOrientation = tile.orientation * (-90);
+            Color tileColor = getSpriteStateColor(traversalData[i]);
 
-                case 1:
-                    sprites[i].setColor(Color.BLUE);
-                    break;
+            sprite.setRotation(tileOrientation);
+            sprite.setColor(tileColor);
+            sprite.draw(batch);
 
-                case 2:
-                    sprites[i].setColor(Color.YELLOW);
-                    break;
+            background[i].draw(batch);
+        }
+    }
 
-                case 3:
-                    sprites[i].setColor(Color.GREEN);
-                    break;
-            }
+    private Color getSpriteStateColor(int tileState){
 
-            sprites[i].draw(batch);
+        switch (tileState)
+        {
+            case 0:
+                return Color.WHITE;
+            case 1:
+                return colors[0];
+            case 2:
+                return colors[1];
+            case 3:
+                return colors[2];
+            default:
+                return Color.VIOLET;
         }
     }
 }
