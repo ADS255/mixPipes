@@ -3,10 +3,15 @@ package com.twofiftyfivebit.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.twofiftyfivebit.game.data.GameDataModel;
 import com.twofiftyfivebit.game.graphics.GridRenderer;
@@ -14,41 +19,38 @@ import com.twofiftyfivebit.game.utilities.InputHandler;
 
 public class GameScreen implements Screen
 {
-    private OrthographicCamera camera;
-    private FillViewport viewport;
-    final private float worldWidth = 16f;
-    final private float worldHeight = 9f;
-    private SpriteBatch batch;
+    protected OrthographicCamera camera;
+    protected FillViewport viewport;
+    final protected float worldWidth = 16f;
+    final protected float worldHeight = 9f;
+    protected SpriteBatch batch;
 
-    private AssetManager assetManager;
-    private InputHandler inputHandler;
-    private GridRenderer gridRenderer;
+    protected FPSLogger fpsLogger;
 
-    private GameDataModel gameDataModel;
-    private Texture[] tileTextures;
+    protected InputHandler inputHandler;
+    protected GridRenderer gridRenderer;
 
-    public GameScreen(AssetManager assetManager, GameDataModel gameDataModel)
+    protected GameDataModel gameDataModel;
+
+    private ShaderProgram shader;
+
+    public GameScreen(GameDataModel gameDataModel)
     {
-        this.assetManager = assetManager;
-
         camera = new OrthographicCamera();
         viewport = new FillViewport(worldWidth, worldHeight, camera);
 
         batch = new SpriteBatch();
 
+        fpsLogger = new FPSLogger();
+
         this.gameDataModel = gameDataModel;
 
-        inputHandler = new InputHandler(camera,this.gameDataModel);
+        inputHandler = new InputHandler(camera, this.gameDataModel);
         Gdx.input.setInputProcessor(inputHandler);
         inputHandler.addListener(gameDataModel);
 
-        tileTextures = new Texture[4];
-        tileTextures[0] = assetManager.get("0.png", Texture.class);
-        tileTextures[1] = assetManager.get("1.png", Texture.class);
-        tileTextures[2] = assetManager.get("2.png", Texture.class);
-        tileTextures[3] = assetManager.get("3.png", Texture.class);
 
-        gridRenderer = new GridRenderer(this.gameDataModel,tileTextures);
+        gridRenderer = new GridRenderer(this.gameDataModel);
     }
 
     @Override
@@ -60,7 +62,9 @@ public class GameScreen implements Screen
     @Override
     public void render(float delta)
     {
-        Gdx.gl.glClearColor(0.21f, 0.27f, 0.30f, 1.0f); // Set a clear color (e.g., black)
+        fpsLogger.log();
+
+        Gdx.gl.glClearColor(0.18f, 0.18f, 0.18f, 1.0f); // Set a clear color (e.g., black)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
@@ -101,10 +105,6 @@ public class GameScreen implements Screen
     public void dispose()
     {
         batch.dispose();
-
-        for (int i = 0; i < tileTextures.length; i++)
-        {
-            tileTextures[i].dispose();
-        }
+        shader.dispose();
     }
 }
