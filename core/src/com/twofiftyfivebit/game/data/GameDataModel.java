@@ -1,10 +1,9 @@
 package com.twofiftyfivebit.game.data;
 
-import com.sun.org.apache.bcel.internal.generic.INEG;
+import com.twofiftyfivebit.game.screenmanagement.IlevelStateListener;
 import com.twofiftyfivebit.game.utilities.IInputListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class GameDataModel extends LevelData implements IInputListener
@@ -14,13 +13,18 @@ public class GameDataModel extends LevelData implements IInputListener
     private boolean traversalDataChange;
     private int[] traversalData;
 
+    private ArrayList<IlevelStateListener> stateListeners;
+
     public GameDataModel()
     {
     }
 
-    public GameDataModel(LevelData levelData)
+    public GameDataModel(LevelData levelData, IlevelStateListener stateListener)
     {
         super(levelData);
+
+        this.stateListeners = new ArrayList<>();
+        this.stateListeners.add(stateListener);
 
         traversers = new GridTraverser[sourcesInfo.length];
         for (int i = 0; i < traversers.length; i++)
@@ -28,12 +32,17 @@ public class GameDataModel extends LevelData implements IInputListener
             int sourceIndex = sourcesInfo[i].index;
             int id = sourcesInfo[i].id;
 
-            GridTraverser traverser = new GridTraverser(levelData, sourceIndex,id);
+            GridTraverser traverser = new GridTraverser(levelData, sourceIndex, id);
             traversers[i] = traverser;
             traverser.traverse();
         }
 
         traversalDataChange = true;
+    }
+
+    public void addStateListener(IlevelStateListener listener)
+    {
+        stateListeners.add(listener);
     }
 
     @Override
@@ -53,11 +62,16 @@ public class GameDataModel extends LevelData implements IInputListener
 
         int[] visited = getVisited();
 
-        for (int i =0; i < goalsInfo.length; i++){
+        for (int i = 0; i < goalsInfo.length; i++)
+        {
             TileInfo goalInfo = goalsInfo[i];
 
-            if(visited[goalInfo.index] == goalInfo.id){
-                System.out.println("Level complete !");
+            if (visited[goalInfo.index] == goalInfo.id)
+            {
+                for (int j = 0; j < stateListeners.size(); j++)
+                {
+                    stateListeners.get(j).onLevelComplete(); //need to count if all goals reached before calling
+                }
             }
         }
     }
@@ -84,10 +98,6 @@ public class GameDataModel extends LevelData implements IInputListener
                     }
                 }
 
-            }
-
-            for(int i = 0; i < goalsInfo.length; i++){
-                traversalData[goalsInfo[i].index] = goalsInfo[i].id;
             }
 
             traversalDataChange = false;
