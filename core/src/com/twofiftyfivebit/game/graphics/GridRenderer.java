@@ -8,12 +8,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.twofiftyfivebit.game.data.GameDataModel;
 import com.twofiftyfivebit.game.data.LevelData;
 import com.twofiftyfivebit.game.data.Tile;
+import com.twofiftyfivebit.game.data.TileInfo;
+import com.twofiftyfivebit.game.screenmanagement.IlevelStateListener;
+import com.twofiftyfivebit.game.tweening.TweenManager;
+import com.twofiftyfivebit.game.tweening.tweens.FadeTween;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GridRenderer
+public class GridRenderer implements IlevelStateListener
 {
     GameDataModel dataModel;
     Texture[] tileTextures;
@@ -26,10 +30,10 @@ public class GridRenderer
 
     private Color[] colors;
 
-    public GridRenderer(GameDataModel dataModel, Texture[] tileTextures)
+    public GridRenderer(GameDataModel dataModel)
     {
         this.dataModel = dataModel;
-        this.tileTextures = tileTextures;
+        this.tileTextures = TextureHandler.instance.getTileTextures();
 
         this.width = dataModel.getWidth();
         this.height = dataModel.getHeight();
@@ -45,11 +49,6 @@ public class GridRenderer
 
         Vector2 offsetVec = new Vector2(width / 2, height / 2);
         int index = 0;
-
-        for (int i = 0; i < tileTextures.length; i++)
-        {
-            tileTextures[i].setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
 
         for (int x = 0; x < width; x++)
         {
@@ -81,7 +80,8 @@ public class GridRenderer
             }
         }
 
-
+        FadeTween tween = new FadeTween(sprites,5f);
+        TweenManager.addTween(tween);
     }
 
     public void render(SpriteBatch batch)
@@ -96,10 +96,28 @@ public class GridRenderer
             float tileOrientation = tile.orientation * (-90);
             Color tileColor = getSpriteStateColor(traversalData[i]);
 
-            sprite.setRotation(tileOrientation);
-            sprite.setColor(tileColor);
-            sprite.draw(batch);
+            int textureIndex = Tile.getTextureIndex(tile.type);
+            if (traversalData[i] == 0 && textureIndex < 3){
+                sprite.setTexture(tileTextures[textureIndex +7]);
+            }
+            else{
+                sprite.setTexture(tileTextures[textureIndex]);
+            }
 
+            sprite.setRotation(tileOrientation);
+            sprite.setColor(tileColor.r,tileColor.g,tileColor.b,sprite.getColor().a);
+        }
+
+        TileInfo[] goalInfo = dataModel.getGoalsInfo();
+
+        for (int i = 0; i < goalInfo.length; i++)
+        {
+            sprites[goalInfo[i].index].setColor(colors[goalInfo[i].id-1]);
+        }
+
+        for (int i = 0; i < sprites.length; i++)
+        {
+            sprites[i].draw(batch);
             background[i].draw(batch);
         }
     }
@@ -119,5 +137,23 @@ public class GridRenderer
             default:
                 return Color.VIOLET;
         }
+    }
+
+    @Override
+    public void onLevelEnter()
+    {
+
+    }
+
+    @Override
+    public void onLevelComplete()
+    {
+
+    }
+
+    @Override
+    public void onLevelExit(int currentLevelId)
+    {
+
     }
 }

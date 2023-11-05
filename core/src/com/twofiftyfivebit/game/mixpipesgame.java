@@ -2,17 +2,19 @@ package com.twofiftyfivebit.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.twofiftyfivebit.game.data.GameDataModel;
 import com.twofiftyfivebit.game.data.LevelData;
 import com.twofiftyfivebit.game.graphics.TextureHandler;
+import com.twofiftyfivebit.game.screenmanagement.IlevelStateListener;
 import com.twofiftyfivebit.game.screens.GameScreen;
+import com.twofiftyfivebit.game.tweening.TweenManager;
 import com.twofiftyfivebit.game.utilities.Serialiser;
 
-public class mixpipesgame extends Game
+public class mixpipesgame extends Game implements IlevelStateListener
 {
 	AssetManager assetManager;
 	TextureHandler textureHandler;
+	TweenManager tweenManager;
 
 	GameScreen gameScreen;
 
@@ -23,8 +25,15 @@ public class mixpipesgame extends Game
 
 		textureHandler = new TextureHandler(assetManager);
 
-		LevelData levelData = Serialiser.loadLevelData(0);
-		GameDataModel dataModel = new GameDataModel(levelData);
+		tweenManager = new TweenManager();
+
+		loadLevel(0);
+	}
+
+	private void loadLevel(int index)
+	{
+		LevelData levelData = Serialiser.loadLevelData(index);
+		GameDataModel dataModel = new GameDataModel(levelData,this);
 
 		gameScreen = new GameScreen(dataModel);
 		setScreen(gameScreen);
@@ -34,6 +43,7 @@ public class mixpipesgame extends Game
 	public void render()
 	{
 		super.render();
+		tweenManager.update();
 	}
 
 	@Override
@@ -47,4 +57,15 @@ public class mixpipesgame extends Game
 		gameScreen.dispose();
 	}
 
+
+	@Override
+	public void onLevelEnter() {}
+	@Override
+	public void onLevelComplete() {}
+	@Override
+	public void onLevelExit(int currentLevelId)
+	{
+		gameScreen.dispose();
+		loadLevel(currentLevelId+1);
+	}
 }
